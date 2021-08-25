@@ -31,12 +31,21 @@ class Task extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <span>{this.state.name}</span>
-        <input type="checkbox" onClick={()=>this.handleClick(this.state.id)} checked={this.state.checked}/>
-      </div>
-    )
+    if (this.state.checked) {
+      return ( 
+        <div>
+          <span><s>{this.state.name}</s></span>
+          <input type="checkbox" checked={this.state.checked}/>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <span>{this.state.name}</span>
+          <input type="checkbox" onClick={()=>this.handleClick(this.state.id)} checked={this.state.checked}/>
+        </div>
+      )
+    }
   }
 }
 
@@ -46,17 +55,18 @@ class App extends React.Component {
     this.state = {
       tasks: [],
       value: '', 
+      showCompleted: false
     }
   }
 
   handleSubmit(event) {
-    // alert('A name was submitted' + this.state.value);
     let new_tasks = this.state.tasks; 
     let len = this.state.tasks.length; 
     new_tasks.push({id: len, value: this.state.value, checked: false});
     this.setState({
       tasks: new_tasks,
-      value: ''
+      value: '',
+      showCompleted: this.state.showCompleted
     })
     event.preventDefault(); 
   }
@@ -66,14 +76,24 @@ class App extends React.Component {
     new_tasks[taskId].checked = true; 
     this.setState({
       tasks: new_tasks, 
-      value: this.state.value
+      value: this.state.value,
+      showCompleted: this.state.showCompleted
     })
   }
 
   handleChange(event) {
     this.setState({
       tasks: this.state.tasks,
-      value : event.target.value
+      value : event.target.value,
+      showCompleted: this.state.showCompleted
+    })
+  }
+
+  handleShowCompletedClick() {
+    this.setState({
+      tasks: this.state.tasks, 
+      value : this.state.value, 
+      showCompleted : this.state.showCompleted ? false : true  
     })
   }
 
@@ -83,7 +103,7 @@ class App extends React.Component {
         <div>
           <InputForm value={this.state.value} handleChange={(event) => this.handleChange(event)} handleSubmit={(event) => this.handleSubmit(event)}/>
         </div>
-        <h1>Incomplete Tasks</h1>
+        <h1>Tasks</h1>
         <div>
           {this.state.tasks.map((e) => {
             if (e.checked === false) {
@@ -91,12 +111,17 @@ class App extends React.Component {
             }
           })}
         </div>
-        {/* <h1>Complete Tasks</h1>
         <div>
-          {this.state.completedTasks.map((element) => {
-            return <Task name={element}/>
-          })}
-        </div> */}
+          <button onClick={()=>this.handleShowCompletedClick()}>Show Completed Tasks</button>
+          <div>
+            <h1> Completed Tasks </h1>
+            {this.state.tasks.map((e) => {
+              if (e.checked === true) {
+                return <Task id ={e.id} name={e.value} checked={e.checked} />
+              }
+            })}
+          </div>
+        </div>
       </div>
     );
   }
