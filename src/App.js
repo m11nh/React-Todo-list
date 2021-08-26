@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import Task from './Task';
 import InputForm from './InputForm';
-import CompletedTasks from './CompletedTasks';
+import IncompleteTasks from './IncompleteTasks';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,7 +11,8 @@ class App extends React.Component {
       tasks: [],
       completedTasks: [], 
       value: '', 
-      showCompleted: false
+      showCompleted: false, 
+      currTaskId: 0
     }
   }
 
@@ -24,7 +25,8 @@ class App extends React.Component {
         tasks: new_tasks,
         completedTasks: this.state.completedTasks, 
         value: '',
-        showCompleted: this.state.showCompleted
+        showCompleted: this.state.showCompleted, 
+        currTaskId: this.state.currTaskId + 1
       })
     }
     event.preventDefault(); 
@@ -83,7 +85,7 @@ class App extends React.Component {
         </div>
         <h1>Tasks</h1>
         <div>
-          <CompletedTasks 
+          <IncompleteTasks 
             tasks={this.state.tasks}
             handleCheckoffClick={(e) => this.handleCheckoffClick(e)}
           />
@@ -91,6 +93,8 @@ class App extends React.Component {
         <button onClick={()=>this.handleShowCompletedClick()}>
           Show Completed Tasks
         </button>
+        <h1>Completed Tasks</h1>
+        
         {/* <div>
           {this.state.tasks.map((e) => {
             if (e.checked === false) {

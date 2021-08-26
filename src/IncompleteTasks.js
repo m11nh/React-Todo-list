@@ -1,7 +1,7 @@
 import React from 'react'; 
 import Task from './Task';
 
-class CompletedTasks extends React.Component {
+class IncompleteTasks extends React.Component {
     constructor(props) {
         super(props); 
         this.state = {
@@ -26,4 +26,4 @@ class CompletedTasks extends React.Component {
     }
 }
 
-export default CompletedTasks; 
+export default IncompleteTasks; 
