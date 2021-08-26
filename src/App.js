@@ -1,7 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import reactDom from 'react-dom';
 import Task from './Task';
 import InputForm from './InputForm';
 
@@ -95,9 +93,6 @@ class App extends React.Component {
       </div>
     );
   }
-}
-function addTask() {
-
 }
 
 export default App;
